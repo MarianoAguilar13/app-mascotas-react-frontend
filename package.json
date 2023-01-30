@@ -1,0 +1,31 @@
+{
+  "name": "desafio-capitulo-7",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "dev:webpack": "webpack",
+    "dev": "cross-env NODE_ENV=devolepment webpack",
+    "dev:s": "cross-env NODE_ENV=devolepment webpack live-server",
+    "build": "cross-env NODE_ENV=production webpack",
+    "start": "live-server"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1"
+  },
+  "dependencies": {
+    "@types/node": "^18.11.18",
+    "@types/react": "^18.0.26",
+    "css-loader": "^6.7.3",
+    "live-server": "^1.2.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.2",
+    "recoil": "^0.7.6",
+    "style-loader": "^3.3.1"
+  }
+}

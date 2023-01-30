@@ -1,0 +1,153 @@
+* {
+  box-sizing: border-box;
+}
+
+.headerVisible {
+  background-color: rgb(54, 170, 216);
+  display: flex;
+  height: 150px;
+  justify-content: space-between;
+  flex-direction: row;
+  font-family: "Poppins", sans-serif;
+}
+
+.headerVisibleLogoContainer {
+  display: flex;
+  height: 140px;
+  width: 50%;
+  align-items: center;
+}
+
+.headerVisibleLogoContainerLogo {
+  color: black;
+  max-width: 60px;
+  margin-left: 40px;
+}
+
+@media (max-width: 768px) {
+  .headerVisibleLogoContainerLogo {
+    font-size: 24px;
+  }
+}
+
+.headerLinks {
+  display: flex;
+  height: 140px;
+  width: 50%;
+  text-decoration: none;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+@media (max-width: 768px) {
+  .headerLinks {
+    display: none;
+  }
+}
+
+.headerLinksLink {
+  font-size: 18px;
+  text-decoration: none;
+  color: black;
+  margin-right: 40px;
+  margin-left: 40px;
+}
+
+@media (max-width: 768px) {
+  .headerLinksLink {
+    display: none;
+  }
+}
+
+.headerVisibleBotonDesplegarContainer {
+  display: flex;
+  height: 140px;
+  width: 50%;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding-right: 40px;
+}
+
+@media (min-width: 769px) {
+  .headerVisibleBotonDesplegarContainer {
+    display: none;
+  }
+}
+
+.headerVisibleBotonDesplegar {
+  background-color: black;
+  padding: 0;
+}
+
+@media (min-width: 769px) {
+  .headerVisibleBotonDesplegar {
+    display: none;
+  }
+}
+
+.headerVisibleBotonDesplegarBarras {
+  background-color: white;
+  border: solid 2px black;
+  width: 36px;
+  height: 8px;
+}
+
+.ventanaLinks {
+  display: none;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgb(54, 170, 216);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Montserrat", sans-serif;
+}
+
+@media (min-width: 769px) {
+  .ventanaLinks {
+    display: none;
+  }
+}
+
+.ventanaLinksBotonCerrar {
+  position: absolute;
+  right: 0px;
+  background-color: rgb(54, 170, 216);
+  border: solid 2px black;
+  font-size: 32px;
+}
+
+@media (min-width: 769px) {
+  .ventanaLinksBotonCerrar {
+    position: absolute;
+    display: none;
+  }
+}
+
+.ventanaLinksLink {
+  font-size: 32px;
+  text-decoration: none;
+  color: black;
+}
+
+.linkUno {
+  text-decoration: none;
+  margin-top: 100px;
+}
+
+.linkDos {
+  text-decoration: none;
+}
+
+.linkTres {
+  text-decoration: none;
+}
+
+.linkCuatro {
+  text-decoration: none;
+  margin-bottom: 100px;
+}
