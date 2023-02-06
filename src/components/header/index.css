@@ -2,6 +2,11 @@
   box-sizing: border-box;
 }
 
+.body {
+  padding: 0;
+  margin: 0;
+}
+
 .headerVisible {
   background-color: rgb(54, 170, 216);
   display: flex;
@@ -150,4 +155,8 @@
 .linkCuatro {
   text-decoration: none;
   margin-bottom: 100px;
+}
+
+a {
+  cursor: pointer;
 }

@@ -1,5 +1,5 @@
 {
-  "name": "desafio-capitulo-7",
+  "name": "app-mascotas-react-frontend",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
@@ -18,12 +18,19 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
+    "@mapbox/mapbox-sdk": "^0.14.0",
     "@types/node": "^18.11.18",
     "@types/react": "^18.0.26",
     "css-loader": "^6.7.3",
+    "dropzone": "^6.0.0-beta.2",
+    "install": "^0.13.0",
     "live-server": "^1.2.2",
+    "mapbox-gl": "^2.12.0",
+    "npm": "^9.4.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
+    "react-mapbox-gl": "^5.1.1",
     "react-router-dom": "^6.6.2",
     "recoil": "^0.7.6",
     "style-loader": "^3.3.1"

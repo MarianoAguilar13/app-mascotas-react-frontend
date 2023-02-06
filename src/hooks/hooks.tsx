@@ -1,70 +1,227 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { atom, useRecoilValue, selector, useRecoilState } from "recoil";
-import {
-  queryState,
-  resultsState,
-  idResultState,
-  idState,
-} from "../atoms/atoms";
+import { userLogin, token, userCreate, misDatos } from "../atoms/atoms";
+import { useNavigate } from "react-router-dom";
+import { useCheckTokenValido } from "./hooks-mis-datos";
 
-// mi custom hook
-//este se encarga de escuchar cuando cambia el params.busqueda que
-//es la query y guardar esa query en el queryState
-//luego cuando cambia el queryState el resultState se vuelve a
-//ejecutar llamando a la api con el valor de query
-//esos resultsState lo guardo en una variable y la funcion useSerchResults
-//la retorna en una variable en el componente, la cual esta usa los resultados
-//para mostrarlos dentro del componente
-export function useSearchResults() {
-  //con el useParams va a tener acceso a los parametro enviados por
-  //la url, dependiendo de la page en la que se invoco esta funcion
-  //useSearchResults
+const API_BASE_URL = "https://app-mascotas-backend.onrender.com";
 
-  // paso 1) escuchar los cambios en la url
-  const params = useParams();
-  const [query, setQuery] = useRecoilState(queryState);
+/*
+export const useUserLogin = () => useRecoilValue(userLogin);
+export const useUserLoginState = () => useRecoilState(userLogin);
+*/
 
-  // paso 3) - reacciona al cambio de la query y realiza la llamada a la api
-  //guardando los resultados de la api
-  const results = useRecoilValue(resultsState);
+export const useToken = () => useRecoilState(token);
 
-  //paso 2) - avisarle a recoil (useEffect)
-  // escucho cambios en los params con useEffect
-  useEffect(() => {
-    console.log("el router me dice que query cambió");
-    // guardar el valor de la query en el átomo: queryState
-    //aca voy a modificar el a query con el valor de params
+export async function iniciarSesionCrearToken(
+  mail: string,
+  password: string,
+  callback
+) {
+  const fetchApi = fetch(API_BASE_URL + "/auth/token", {
+    method: "post",
+    //necesita este header para que funcione
+    headers: {
+      "content-type": "application/json",
+    },
 
-    if (params.busqueda) {
-      setQuery(params.busqueda);
-      console.log("query: ", params.busqueda);
-    }
-  }, [params]);
+    body: JSON.stringify({
+      mail: mail,
+      password: password,
+    }),
+  });
 
-  return results;
+  try {
+    const res = await fetchApi;
+    //console.log("nombre del usuario: ", resultado.name);
+    const resultado = await res.json();
+    console.log(resultado.respuesta);
+    localStorage.setItem("Token", resultado.respuesta);
+    console.log(localStorage.getItem("Token"));
+    callback(resultado);
+  } catch (resultado) {
+    callback(resultado);
+  }
 }
 
-export function useIdSearchResult() {
-  const params = useParams();
-  const [id, setId] = useRecoilState(idState);
+export async function crearCuenta(
+  mail: string,
+  password: string,
+  name: string,
+  callback
+) {
+  const fetchApi = fetch(API_BASE_URL + "/auth", {
+    method: "post",
+    //necesita este header para que funcione
+    headers: {
+      "content-type": "application/json",
+    },
 
-  // escucho cambios en los params con useEffect
-  useEffect(() => {
-    console.log("el router me dice que query cambió");
-    // guardar el valor de la query en el átomo: queryState
-    //aca voy a modificar el a query con el valor de params
+    body: JSON.stringify({
+      mail: mail,
+      password: password,
+      name: name,
+    }),
+  });
 
-    if (params.id) {
-      console.log("este es el id: ", params.id);
+  try {
+    const res = await fetchApi;
+    //console.log("nombre del usuario: ", resultado.name);
+    const resultado = await res.json();
 
-      setId(params.id);
-    }
-  }, [params]);
-
-  // finalmente me engancho a los cambios de resultState
-
-  const results = useRecoilValue(idResultState);
-
-  return results;
+    console.log("respuesta del try crear cuenta: ", resultado);
+    callback(resultado);
+  } catch (r) {
+    console.log("respuesta del catch crear cuenta: ", r);
+    callback(r);
+  }
 }
+
+export async function myData(callback) {
+  const token = "bearer " + localStorage.getItem("Token");
+  const fetchApi = fetch(API_BASE_URL + "/me", {
+    method: "GET",
+    //necesita este header para que funcione
+    headers: {
+      Authorization: token,
+      "content-type": "application/json",
+    },
+  });
+  try {
+    const res = await fetchApi;
+    //console.log("nombre del usuario: ", resultado.name);
+    const resultado = await res.json();
+
+    callback(resultado);
+  } catch (r) {
+    console.log("respuesta del catch crear cuenta: ", r);
+    callback(r);
+  }
+}
+
+//este hook nos permite verificar el token guardado en localstorage
+//luego si esta todo ok continua normalmente en esa page y sino
+//lo envia a sign-in
+export const useCheckTokenCompleto = () => {
+  const navigate = useNavigate();
+
+  const [checkToken, setCheckToken] = useState({
+    valido: false,
+    terminoElChequeo: false,
+  });
+  const [inicializar, setInicializar] = useState(true);
+
+  const callbackCheckToken = (respuesta) => {
+    if (respuesta.error) {
+      //el checktokenvalid tiene dos atributos, si es valido o no el token
+      //y si se termino el cheaque
+      setCheckToken({ valido: false, terminoElChequeo: true });
+    } else {
+      setCheckToken({ valido: true, terminoElChequeo: true });
+    }
+  };
+
+  //este estado de inicializar lo cree para que solo se ejecute una vez el
+  //chequeo del tengo de la api
+  useEffect(() => {
+    useCheckTokenValido(callbackCheckToken);
+  }, [inicializar]);
+
+  //cada vez que cambia el stado del chequeo se ejecuta
+  useEffect(() => {
+    //si el chequeo termino entonces entro en el if
+    if (checkToken.terminoElChequeo) {
+      //si fue valido no hay problema, pero sino fue valido, entonces
+      //te notificara que no estas conectado y que vayas al sign-in
+      if (checkToken.valido) {
+      } else {
+        alert(
+          "No esta conectado a alguna cuenta, por favor inicie sesión para acceder a esta opción"
+        );
+        navigate("/sign-in", { replace: true });
+      }
+    }
+  }, [checkToken]);
+};
+
+export const cargarPet = async (
+  name: string,
+  type: string,
+  description: string,
+  pictureDataURL: string,
+  lat: number,
+  lng: number,
+  lost: boolean,
+  callback
+) => {
+  const token = "bearer " + localStorage.getItem("Token");
+  //si existe un email en el state va a hacer el fetch-post
+  const fetchApi = fetch(API_BASE_URL + "/pets", {
+    method: "post",
+
+    headers: {
+      Authorization: token,
+      "content-type": "application/json",
+    },
+
+    body: JSON.stringify({
+      name,
+      type,
+      description,
+      pictureDataURL,
+      lat,
+      lng,
+      lost,
+    }),
+  });
+
+  try {
+    const res = await fetchApi;
+    //console.log("nombre del usuario: ", resultado.name);
+    const resultado = await res.json();
+
+    callback(resultado);
+  } catch (resultado) {
+    callback(resultado);
+  }
+};
+
+export const misPets = async (callback) => {
+  const token = "bearer " + localStorage.getItem("Token");
+  //si existe un email en el state va a hacer el fetch-post
+  const fetchApi = fetch(API_BASE_URL + "/me/pets", {
+    method: "GET",
+
+    headers: {
+      Authorization: token,
+      "content-type": "application/json",
+    },
+  });
+
+  try {
+    const res = await fetchApi;
+    //console.log("nombre del usuario: ", resultado.name);
+    const resultado = await res.json();
+
+    const mascotas = resultado;
+
+    let arrayMascotas = [] as any;
+    //Ahora itero y agrego todas las cards de mis mascotas perdidas
+    if (mascotas[0]) {
+      for (const pet of mascotas) {
+        const newPet = {
+          id: pet.id,
+          picURL: pet.picURL,
+          name: pet.name,
+        };
+        arrayMascotas.push(newPet);
+      }
+
+      callback(arrayMascotas);
+    } else {
+      callback(resultado);
+    }
+  } catch (resultado) {
+    callback(resultado);
+  }
+};

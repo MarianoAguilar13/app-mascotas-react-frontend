@@ -1,0 +1,44 @@
+.buttonMisPets {
+  font-size: 14px;
+  height: 60px;
+  width: 50%;
+  border-radius: 10px;
+  border: 2px solid black;
+  background-color: greenyellow;
+}
+
+.cardPet {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  width: 300px;
+  border: 5px solid black;
+  margin-bottom: 30px;
+}
+
+.cardPetImagen {
+  height: auto;
+  max-height: 400px;
+  width: 100%;
+  border-bottom: 5px solid black;
+}
+
+.cardPetInfo {
+  display: flex;
+  margin: 5%;
+}
+
+.cardPetInfoContainer {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  justify-content: space-around;
+}
+
+.cardPetInfoSubContainerName {
+  display: flex;
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0px;
+  text-align: left;
+}

@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+}
+
+.body {
+  padding: 0;
+  margin: 0;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  padding: 82px 33px;
+  background-color: black;
+  color: white;
+  font-family: "Poppins", sans-serif;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+}
+
+.containerTitle {
+  font-size: 32px;
+  margin: 0;
+  margin-bottom: 10px;
+  font-weight: 400;
+  font-family: "Montserrat", sans-serif;
+}
+
+.containerForm {
+  width: 310px;
+}
+
+@media (min-width: 769px) {
+  .containerForm {
+    min-width: 356px;
+  }
+}
+
+.pictureContainer {
+  border: greenyellow 5px outset;
+  border-radius: 4px;
+  margin-top: 20px;
+  padding: 15px;
+  background-color: red;
+}
+
+.containerDropzone {
+  width: 300px;
+  height: 300px;
+  background-color: blueviolet;
+}
+
+.containerDropzoneP {
+  color: whitesmoke;
+  font-size: 16px;
+}

@@ -1,14 +1,43 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Css from "./index.css";
+import { atom, useRecoilValue, selector, useRecoilState } from "recoil";
+import {
+  userLogin,
+  token,
+  userCreate,
+  misDatos,
+  checkToken,
+} from "../../atoms/atoms";
+
 //import { InputBuscador } from "../ui/input-buscador/InputBuscador";
 //import { BotonBuscador } from "../ui/boton-buscador/BotonBuscador";
 
 function Header(props) {
-  //aca utilizo el useNavigate, un hook de react-router, que me permite
-  //poder ir a otra ruta, en este caso paso el valor ingresado en el input
-  //a la url que esta el componente page que se encarga de realizar la busqueda
-  const BaseUrl = props.BaseUrl;
+  const [userCreateData, setUserCreateData] = useRecoilState(userCreate);
+  const [misDatosData, setMisDatosData] = useRecoilState(misDatos);
+  const [userLoginState, setUserLoginState] = useRecoilState(userLogin);
+  const [checkTokenValid, setCheckTokenValid] = useRecoilState(checkToken);
+
+  const useCerrarSesion = () => {
+    setMisDatosData({
+      name: "",
+      password: "",
+      newPassword: "",
+      newPasswordRepetido: "",
+    });
+    setUserCreateData({
+      mail: "",
+      password: "",
+      name: "",
+      passwordRepetida: "",
+    });
+    setUserLoginState({ mail: "", password: "" });
+    setCheckTokenValid({
+      valido: false,
+      terminoElChequeo: false,
+    });
+  };
 
   const navigate = useNavigate();
 
@@ -39,38 +68,55 @@ function Header(props) {
         </div>
         <div className={Css.headerLinks}>
           <a
+            //con esta funcion chequeo si existe un token en el localstorage
+            // si existe entonces puedo entrar a mis datos y sino voy a signin
             onClick={() => {
-              navigate("/mis-datos", { replace: true });
+              if (localStorage.getItem("Token")) {
+                navigate("/mis-datos", { replace: true });
+              } else {
+                alert("No has iniciado sesión, te redirigimos al login");
+                navigate("/sign-in", { replace: true });
+              }
             }}
             className={Css.headerLinksLink}
-            target=""
           >
             Mis Datos
           </a>
           <a
             onClick={() => {
-              navigate("/mis-pets-perdidas", { replace: true });
+              if (localStorage.getItem("Token")) {
+                navigate("/mis-pets-perdidas", { replace: true });
+              } else {
+                alert("No has iniciado sesión, te redirigimos al login");
+                navigate("/sign-in", { replace: true });
+              }
             }}
             className={Css.headerLinksLink}
-            target=""
           >
             Mis mascotas perdidas
           </a>
           <a
             onClick={() => {
-              navigate("/cargar-pet-perdida", { replace: true });
+              if (localStorage.getItem("Token")) {
+                navigate("/cargar-pet-perdida", { replace: true });
+              } else {
+                alert("No has iniciado sesión, te redirigimos al login");
+                navigate("/sign-in", { replace: true });
+              }
             }}
             className={Css.headerLinksLink}
-            target=""
           >
             Reportar mascota
           </a>
           <a
             onClick={() => {
+              localStorage.setItem("Token", "");
+              alert("Se ha cerrado sesión");
+              console.log("este es el token:", localStorage.getItem("Token"));
+              useCerrarSesion();
               navigate("/", { replace: true });
             }}
             className={Css.headerLinksLink}
-            target=""
           >
             Cerrar sesión
           </a>
@@ -95,41 +141,59 @@ function Header(props) {
         </button>
         <a
           onClick={() => {
-            navigate("/mis-datos", { replace: true });
-            cerrarVentana();
+            if (localStorage.getItem("Token")) {
+              cerrarVentana();
+              navigate("/mis-datos", { replace: true });
+            } else {
+              cerrarVentana();
+              alert("No has iniciado sesión, te redirigimos al login");
+              navigate("/sign-in", { replace: true });
+            }
           }}
           className={Css.ventanaLinksLink + " " + Css.linkUno}
-          target=""
         >
           Mis Datos
         </a>
         <a
           onClick={() => {
-            navigate("/mis-pets-perdidas", { replace: true });
-            cerrarVentana();
+            if (localStorage.getItem("Token")) {
+              cerrarVentana();
+              navigate("/mis-pets-perdidas", { replace: true });
+            } else {
+              cerrarVentana();
+              alert("No has iniciado sesión, te redirigimos al login");
+              navigate("/sign-in", { replace: true });
+            }
           }}
           className={Css.ventanaLinksLink + " " + Css.linkDos}
-          target=""
         >
           Mis mascotas perdidas
         </a>
         <a
           onClick={() => {
-            navigate("/cargar-pet-perdida", { replace: true });
-            cerrarVentana();
+            if (localStorage.getItem("Token")) {
+              cerrarVentana();
+              navigate("/cargar-pet-perdida", { replace: true });
+            } else {
+              cerrarVentana();
+              alert("No has iniciado sesión, te redirigimos al login");
+              navigate("/sign-in", { replace: true });
+            }
           }}
           className={Css.ventanaLinksLink + " " + Css.linkTres}
-          target=""
         >
           Reportar mascota
         </a>
         <a
           onClick={() => {
-            navigate("/", { replace: true });
+            localStorage.setItem("Token", "");
+            alert("Se ha cerrado sesión");
+            console.log(localStorage.getItem("Token"));
             cerrarVentana();
+            useCerrarSesion();
+            navigate("/", { replace: true });
           }}
           className={Css.ventanaLinksLink + " " + Css.linkCuatro}
-          target=""
         >
           Cerrar sesion
         </a>

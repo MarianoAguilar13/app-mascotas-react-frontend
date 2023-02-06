@@ -1,0 +1,4 @@
+.contenedorFieldset {
+  display: flex;
+  flex-direction: column;
+}
