@@ -47,3 +47,8 @@ export const valueName = atom({
   key: "valueName",
   default: "",
 });
+
+export const coordenadasBusquedaCercanas = atom({
+  key: "coordenadasBusquedaCercanas",
+  default: { lat: 0, lng: 0 },
+});

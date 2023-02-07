@@ -225,3 +225,51 @@ export const misPets = async (callback) => {
     callback(resultado);
   }
 };
+
+export const petsConLocationCercana = async (
+  lat: number,
+  lng: number,
+  callback
+) => {
+  //si existe un email en el state va a hacer el fetch-post
+  const fetchApi = fetch(
+    API_BASE_URL + "/pets/cercanas?lat=" + lat + "&lng=" + lng,
+    {
+      method: "GET",
+
+      headers: {
+        "content-type": "application/json",
+      },
+    }
+  );
+
+  try {
+    const res = await fetchApi;
+    //console.log("nombre del usuario: ", resultado.name);
+    const resultado = await res.json();
+
+    const mascotas = resultado;
+
+    let arrayMascotas = [] as any;
+    //Ahora itero y agrego todas las cards de las mascotas perdidas
+    if (mascotas[0]) {
+      for (const pet of mascotas) {
+        if (pet) {
+          const newPet = {
+            id: pet.id,
+            picURL: pet.picURL,
+            name: pet.name,
+            description: pet.description,
+          };
+          arrayMascotas.push(newPet);
+        }
+      }
+
+      callback(arrayMascotas);
+    } else {
+      callback(resultado);
+    }
+  } catch (resultado) {
+    callback(resultado);
+  }
+};
