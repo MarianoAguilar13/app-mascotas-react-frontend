@@ -1,4 +1,4 @@
-import { atom, useRecoilValue, selector } from "recoil";
+import { atom } from "recoil";
 
 export const userLogin = atom({
   key: "userLogin",
@@ -48,7 +48,25 @@ export const valueName = atom({
   default: "",
 });
 
+//son las coordenas que se utilizan para buscar
 export const coordenadasBusquedaCercanas = atom({
   key: "coordenadasBusquedaCercanas",
   default: { lat: 0, lng: 0 },
+});
+
+//es el id de la pet que se quiere reportar
+export const idPet = atom({
+  key: "idPet",
+  default: { id: "", name: "" },
+});
+
+export const idPetEditar = atom({
+  key: "idPetEditar",
+  default: { id: 1 },
+});
+
+//este atom es para guardar el mail de usuario dueño de la pet
+export const mailUser = atom({
+  key: "mailUser",
+  default: { mail: "" },
 });

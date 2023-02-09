@@ -46,12 +46,34 @@
 }
 
 .containerDropzone {
-  width: 300px;
-  height: 300px;
+  margin-top: 20px;
+  width: 310px;
+  height: 60px;
   background-color: blueviolet;
+  border: greenyellow 5px outset;
+}
+
+@media (min-width: 769px) {
+  .containerDropzone {
+    width: 356px;
+  }
 }
 
 .containerDropzoneP {
   color: whitesmoke;
   font-size: 16px;
+}
+
+.mostrarImagen {
+  margin-top: 20px;
+  border: greenyellow 5px outset;
+  width: 310px;
+  height: 310px;
+}
+
+@media (min-width: 769px) {
+  .mostrarImagen {
+    width: 356px;
+    height: 356px;
+  }
 }

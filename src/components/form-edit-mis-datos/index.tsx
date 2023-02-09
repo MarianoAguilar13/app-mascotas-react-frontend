@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React from "react";
 import Css from "./index.css";
 import { MainFieldSet } from "../../ui/fields-sets";
 import { MainButton } from "../../ui/buttons";
-import { userCreate, misDatos } from "../../atoms/atoms";
-import { useRecoilValue, useRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { valueName } from "../../atoms/atoms";
 
 type PropsFormReportPet = {
@@ -46,6 +44,8 @@ export function FormEditMisDatos(props: PropsFormReportPet) {
       newPassword: e.target.newPassword.value,
       newPasswordRepetido: e.target.newPasswordRepetido.value,
     };
+    //settea los datos en el state MisDatos el cual despues se escucharan
+    //los datos en la page editMisDatos
     setMisDatos(data);
   };
   /*

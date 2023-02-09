@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { MapboxSeach } from "../../components/mapbox-search";
 import Css from "./index.css";
 import { MainFieldSet } from "../../ui/fields-sets";
@@ -6,15 +6,19 @@ import { FieldSetTextArea } from "../../ui/fields-sets";
 import { MainButton } from "../../ui/buttons";
 import Dropzone from "react-dropzone";
 import { useNavigate } from "react-router-dom";
-import { useCheckTokenCompleto } from "../../hooks/hooks";
-import { cargarPet } from "../../hooks/hooks";
+import { useCheckTokenCompleto } from "../../api-hooks/api-hooks";
+import { cargarPet } from "../../api-hooks/api-hooks";
 
 function CargarPet() {
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({ mapbox: { coords: [] } });
+  //este es la data uri de la imagen a cargar
   const [fileUrl, setFileUrl] = useState();
   const [enviarData, setEnviarData] = useState(false);
+  //este state sirve para mostrar la pseudo url creada para mostrar
+  //la imagen que se quiere cargar
+  const [imagenMostrar, setImagenMostrar] = useState("");
 
   useCheckTokenCompleto();
 
@@ -30,6 +34,7 @@ function CargarPet() {
     });
   };
 
+  //este callback verifica si se cargo correctamente la pet
   const callbackCargarPet = (result) => {
     if (result.petId) {
       console.log("id pet: ", result.petId);
@@ -42,6 +47,9 @@ function CargarPet() {
     }
   };
 
+  //le envio el submitHandler por props al form y checkea todos
+  //los campos y si esta todo ok, guarda la nueva pet con un fetch
+  //a la api
   function submitHandler(e) {
     console.log("El evento submit no se ha disparado");
     e.preventDefault();
@@ -81,6 +89,8 @@ function CargarPet() {
     }
   }
 
+  //este handle settea la data de las coordenadas de la ubicacion
+  //buscada por mapbox mas la data del resto del form
   function handleMapboxChange(data) {
     // voy agregando data al state interno del form
     setFormData({
@@ -105,10 +115,22 @@ function CargarPet() {
           typeInput="text"
           labelName="TIPO DE MASCOTA"
         ></MainFieldSet>
+        <img
+          className={Css.mostrarImagen}
+          src={imagenMostrar}
+          alt="Imagen de la pet a cargar"
+        />
         <Dropzone
           onDrop={async (file) => {
             const base64URL = (await encodeFileAsBase64URL(file[0])) as any;
 
+            //aca voy asignar una url al archivo cargado en dropzone
+            //asi lo puedo mostrar como una imagen
+            const fileMostrar = Object.assign(file[0], {
+              preview: URL.createObjectURL(file[0]),
+            });
+            //setteo la url creada
+            setImagenMostrar(fileMostrar.preview);
             //Ahora que transforme la imagen en data base64URL la guardo en
             //los datos
             setFileUrl(base64URL);
@@ -119,7 +141,7 @@ function CargarPet() {
               <div className={Css.containerDropzone} {...getRootProps()}>
                 <input {...getInputProps()} />
                 <p className={Css.containerDropzoneP}>
-                  Haz click en el fondo violeta para subir una foto
+                  Haz click para subir una foto
                 </p>
               </div>
             </section>
@@ -133,6 +155,8 @@ function CargarPet() {
         <MapboxSeach onChange={handleMapboxChange} />
         <MainButton
           onClick={() => {
+            //cuando apreto el click de enviar, recien ahi pongo el state
+            //de enviarData en true para que se active lo del handleSubmit
             setEnviarData(true);
           }}
         >

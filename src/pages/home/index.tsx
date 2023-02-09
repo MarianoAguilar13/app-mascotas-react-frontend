@@ -13,7 +13,8 @@ function Home() {
   );
   const [comenzar, setComenzar] = useState(true);
   const navigate = useNavigate();
-
+  //cuando se crea el componente se pide la geolocalizacion en el
+  //navegador y la settea en el state del recoil del atom coordenadas
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((geoLocationPosition) => {
       const lat = geoLocationPosition.coords.latitude;

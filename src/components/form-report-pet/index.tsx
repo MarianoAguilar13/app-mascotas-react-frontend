@@ -4,6 +4,10 @@ import Css from "./index.css";
 import { MainFieldSet } from "../../ui/fields-sets";
 import { MainButton } from "../../ui/buttons";
 import { FieldSetTextArea } from "../../ui/fields-sets";
+import { useRecoilState } from "recoil";
+import { mailUser } from "../../atoms/atoms";
+import { useCrearTexto } from "../../api-hooks/api-hooks-reportar-pet";
+import { useEnviarMail } from "../../api-hooks/api-hooks-reportar-pet";
 
 type PropsFormReportPet = {
   idInputUno: string;
@@ -18,12 +22,49 @@ type PropsFormReportPet = {
   nameTextArea: string;
   labelNameTres: string;
   buttonChildren: string;
-  onSubmit: {};
+  onSubmit?: {};
 };
 
 export function FormReportPet(props: PropsFormReportPet) {
+  const [mailUserOwner, setMailUserOwner] = useRecoilState(mailUser);
+  const navigate = useNavigate();
+
+  //si el fetch sale bien entonces mostramos con una alerta el msj
+  const callbackEnviarMail = (respuesta) => {
+    alert(respuesta.message);
+    navigate("/", { replace: true });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    const name = e.target.nombre.value;
+    const tel = e.target.telefono.value;
+    const telCheck = parseInt(e.target.telefono.value, 10);
+    const msj = e.target.msj.value;
+
+    //primero se checkea que exista todos los datos
+    if (
+      Number.isInteger(telCheck) &&
+      tel.length >= 10 &&
+      name.length > 0 &&
+      msj.length > 0
+    ) {
+      //luego se crea el texto en base a los datos del form
+      const text = useCrearTexto(name, tel, msj);
+      console.log(
+        "este es el texto a envia: ",
+        text,
+        " este es el mail: ",
+        mailUserOwner.mail
+      );
+      //se envia el mail con el fetch
+      useEnviarMail(mailUserOwner.mail, text, callbackEnviarMail);
+    }
+  };
+
   return (
-    <form className={Css.form}>
+    <form onSubmit={submitHandler} className={Css.form}>
       <MainFieldSet
         idInput={props.idInputUno}
         nameInput={props.nameInputUno}

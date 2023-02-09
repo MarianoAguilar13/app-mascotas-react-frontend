@@ -40,7 +40,9 @@ export function FormSignUp(props: PropsFormReportPet) {
       name: e.target.name.value,
       passwordRepetida: e.target.passwordRepetida.value,
     };
-
+    //cada vez que hago el submit settea la nueva data al state
+    //UserCreateData el cual despues se utiliza para hacer
+    //la llamada de la api para crear la cuenta
     setUserCreateData(data);
   };
   /*

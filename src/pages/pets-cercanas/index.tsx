@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import { MainButton } from "../../ui/buttons";
 import { coordenadasBusquedaCercanas } from "../../atoms/atoms";
 import { useRecoilState } from "recoil";
-import { petsConLocationCercana } from "../../hooks/hooks";
+import { petsConLocationCercana } from "../../api-hooks/api-hooks";
 
 function PetsCercanas() {
+  //las coordenadas que se obtuvieron del navegador
   const [coordenadas, setCoordenadas] = useRecoilState(
     coordenadasBusquedaCercanas
   );
@@ -17,6 +18,9 @@ function PetsCercanas() {
 
   const navigate = useNavigate();
 
+  //ejecuta el callback luego de que finalice el fetch
+  //si encontro mascotas se settearan en el state y sino
+  //se dara una alerta y lo redirigira al home
   const callbackPetsCercanas = (respuesta) => {
     if (respuesta[0]) {
       setLasPetsCercanas(respuesta);
@@ -26,7 +30,9 @@ function PetsCercanas() {
     }
   };
 
+  //se ejecuta una unica vez cuando se icicia el componente
   useEffect(() => {
+    //busca con la api a las pets cercanas a su ubicacion
     petsConLocationCercana(
       coordenadas.lat,
       coordenadas.lng,
@@ -41,6 +47,7 @@ function PetsCercanas() {
         {lasPetsCercanas.map((r) => (
           <CardPetPerdida
             key={r.id}
+            id={r.id}
             name={r.name}
             urlImagen={r.picURL}
             description={r.description}

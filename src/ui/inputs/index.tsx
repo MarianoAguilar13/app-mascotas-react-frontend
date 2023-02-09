@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Css from "./index.css";
-import { myData } from "../../hooks/hooks";
+import { myData } from "../../api-hooks/api-hooks";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { valueName } from "../../atoms/atoms";
 
@@ -9,6 +9,15 @@ type PropsInput = {
   nameInput: string;
   typeInput: string;
   nameValue?: boolean;
+};
+
+type PropsInputEditPet = {
+  idInput: string;
+  nameInput: string;
+  typeInput: string;
+  nameValue?;
+  typeValue?;
+  urlValue?;
 };
 
 export function MainInput(props: PropsInput) {
@@ -29,9 +38,33 @@ export function MainInput(props: PropsInput) {
   }, [inicializar]);
   //name value es una props que nos indica que va a ser un imput
   //cuyo nombre se va a mostrar
+  /*
+  typeValue?;
+  descriptionValue?;
+  urlValue?;
+*/
   return props.nameValue ? (
     <input
       defaultValue={dataValue || ""}
+      className={Css.mainInputText}
+      id={props.idInput}
+      name={props.nameInput}
+      type={props.typeInput}
+    />
+  ) : (
+    <input
+      className={Css.mainInputText}
+      id={props.idInput}
+      name={props.nameInput}
+      type={props.typeInput}
+    />
+  );
+}
+
+export function InputEditPet(props: PropsInputEditPet) {
+  return props.nameValue || props.typeValue || props.urlValue ? (
+    <input
+      defaultValue={props.nameValue || props.typeValue || props.urlValue || ""}
       className={Css.mainInputText}
       id={props.idInput}
       name={props.nameInput}

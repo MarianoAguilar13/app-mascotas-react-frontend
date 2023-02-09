@@ -1,18 +1,11 @@
 import { useEffect, useState } from "react";
-import { atom, useRecoilValue, selector, useRecoilState } from "recoil";
-import { userLogin, token, userCreate, misDatos } from "../atoms/atoms";
 import { useNavigate } from "react-router-dom";
-import { useCheckTokenValido } from "./hooks-mis-datos";
+import { useCheckTokenValido } from "./api-hooks-mis-datos";
 
 const API_BASE_URL = "https://app-mascotas-backend.onrender.com";
 
-/*
-export const useUserLogin = () => useRecoilValue(userLogin);
-export const useUserLoginState = () => useRecoilState(userLogin);
-*/
-
-export const useToken = () => useRecoilState(token);
-
+//crea el token del usuario cuando inicia sesion y lo guarda en
+//el local storage
 export async function iniciarSesionCrearToken(
   mail: string,
   password: string,
@@ -44,6 +37,7 @@ export async function iniciarSesionCrearToken(
   }
 }
 
+//este fetch nos permite crear un nuevo usuario
 export async function crearCuenta(
   mail: string,
   password: string,
@@ -77,6 +71,8 @@ export async function crearCuenta(
   }
 }
 
+//este fetch devuelve los datos de un usario utilizando el token
+//guardado en el local storage
 export async function myData(callback) {
   const token = "bearer " + localStorage.getItem("Token");
   const fetchApi = fetch(API_BASE_URL + "/me", {
@@ -144,6 +140,8 @@ export const useCheckTokenCompleto = () => {
   }, [checkToken]);
 };
 
+//este fetch nos permite cargar una pet, la cual los otros usuarios
+//podran verla si estan cerca de su ubicacion, para que puedan crear un reporte
 export const cargarPet = async (
   name: string,
   type: string,
@@ -186,9 +184,11 @@ export const cargarPet = async (
   }
 };
 
+//esta funcion me permite obtener las pets que subio un usuarios
+//para asi luego poder mostrarselas en la page
 export const misPets = async (callback) => {
   const token = "bearer " + localStorage.getItem("Token");
-  //si existe un email en el state va a hacer el fetch-post
+
   const fetchApi = fetch(API_BASE_URL + "/me/pets", {
     method: "GET",
 
@@ -226,12 +226,13 @@ export const misPets = async (callback) => {
   }
 };
 
+//este fetch nos trar la pets perdidas que estan cerca de nuestra
+//ubicacion actual, en un radio de 5km
 export const petsConLocationCercana = async (
   lat: number,
   lng: number,
   callback
 ) => {
-  //si existe un email en el state va a hacer el fetch-post
   const fetchApi = fetch(
     API_BASE_URL + "/pets/cercanas?lat=" + lat + "&lng=" + lng,
     {
@@ -269,6 +270,73 @@ export const petsConLocationCercana = async (
     } else {
       callback(resultado);
     }
+  } catch (resultado) {
+    callback(resultado);
+  }
+};
+
+//con este fetch obtenemos los datos de una pet si tenemos el id de la pet
+export const getOnePet = async (idPet: number, callback) => {
+  const token = "bearer " + localStorage.getItem("Token");
+
+  const fetchApi = fetch(API_BASE_URL + "/pets?idPet=" + idPet, {
+    method: "GET",
+
+    headers: {
+      Authorization: token,
+      "content-type": "application/json",
+    },
+  });
+
+  try {
+    const res = await fetchApi;
+    //console.log("nombre del usuario: ", resultado.name);
+    const resultado = await res.json();
+    const pet = resultado;
+    console.log("esta es la pet: ", pet);
+    callback(pet);
+  } catch (resultado) {
+    callback(resultado);
+  }
+};
+
+export const editarPet = async (
+  name: string,
+  type: string,
+  description: string,
+  pictureDataURL,
+  lat: number,
+  lng: number,
+  lost: boolean,
+  petId: number,
+  callback
+) => {
+  const token = "bearer " + localStorage.getItem("Token");
+
+  const fetchApi = fetch(API_BASE_URL + "/pets", {
+    method: "PATCH",
+    headers: {
+      Authorization: token,
+      "content-type": "application/json",
+    },
+
+    body: JSON.stringify({
+      name,
+      type,
+      description,
+      pictureDataURL,
+      lat,
+      lng,
+      lost,
+      petId,
+    }),
+  });
+
+  try {
+    const res = await fetchApi;
+    const resultado = await res.json();
+    console.log("resultado de editar la pet: ", resultado);
+    callback(resultado);
   } catch (resultado) {
     callback(resultado);
   }

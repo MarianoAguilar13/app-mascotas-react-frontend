@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import Css from "./index.css";
 import { FormEditMisDatos } from "../../components/form-edit-mis-datos";
-import { useCheckTokenValido } from "../../hooks/hooks-mis-datos";
+import { useCheckTokenValido } from "../../api-hooks/api-hooks-mis-datos";
 import { useNavigate } from "react-router-dom";
 import { checkToken, misDatos } from "../../atoms/atoms";
 import { useRecoilState } from "recoil";
 import {
   useCheckNewPasswords,
   useEditarMisDatos,
-} from "../../hooks/hooks-mis-datos";
-import { myData } from "../../hooks/hooks";
-import { useCheckTokenCompleto } from "../../hooks/hooks";
+} from "../../api-hooks/api-hooks-mis-datos";
+import { myData } from "../../api-hooks/api-hooks";
+import { useCheckTokenCompleto } from "../../api-hooks/api-hooks";
 
 function MisDatos() {
   const [misDatos, setMisDatos] = useState({
@@ -22,8 +22,11 @@ function MisDatos() {
   const navigate = useNavigate();
   const resultCheckNewsPass = useCheckNewPasswords(misDatos);
 
+  //con este hook chequeamos que sea un token valido
   useCheckTokenCompleto();
 
+  //este callback se va a ejecutar cuando termine el fetch de
+  //la api de editarMisDatos
   const callbackEditarMisDatos = (respuesta) => {
     if (respuesta.error) {
       alert(respuesta.error);
@@ -35,6 +38,8 @@ function MisDatos() {
     }
   };
 
+  //escucha los cambios de mis datos, los cuales ocurren cuando se envian
+  //los datos del form
   useEffect(() => {
     if (misDatos.name || misDatos.newPassword) {
       console.log("dataLogin: ", misDatos);

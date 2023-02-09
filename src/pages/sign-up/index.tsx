@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { FormSignUp } from "../../components/form-sign-up";
 import Css from "./index.css";
-import { useRecoilValue, useRecoilState } from "recoil";
-import { crearCuenta } from "../../hooks/hooks";
+import { crearCuenta } from "../../api-hooks/api-hooks";
 import { useNavigate } from "react-router-dom";
 import {
   useCheckPasswords,
   useValidateEmail,
-} from "../../hooks/hooks-create-account";
+} from "../../api-hooks/api-hooks-create-account";
 
 export function SignUp() {
   //contiene el state de los datos para crear una cuenta
