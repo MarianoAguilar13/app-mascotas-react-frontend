@@ -37,8 +37,6 @@ function CargarPet() {
   //este callback verifica si se cargo correctamente la pet
   const callbackCargarPet = (result) => {
     if (result.petId) {
-      console.log("id pet: ", result.petId);
-
       alert("Tu mascota se ha cargado correctamente");
       navigate("/", { replace: true });
     } else {
@@ -51,7 +49,6 @@ function CargarPet() {
   //los campos y si esta todo ok, guarda la nueva pet con un fetch
   //a la api
   function submitHandler(e) {
-    console.log("El evento submit no se ha disparado");
     e.preventDefault();
     if (enviarData) {
       e.preventDefault();
@@ -80,12 +77,8 @@ function CargarPet() {
         alert(
           "Por favor recuerde que es necesario ingresar una foto de su mascota y una ubicación donde se avisto por última vez "
         );
-        navigate("/cargar-pet", { replace: true });
+        navigate("/cargar-pet-perdida", { replace: true });
       }
-      console.log("El evento submit se disparó");
-      console.log(allData);
-    } else {
-      console.log("El evento submit no se ha disparado");
     }
   }
 

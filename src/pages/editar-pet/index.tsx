@@ -54,7 +54,6 @@ function EditarPet() {
 
   const callbackOnePet = (pet) => {
     if (pet.id) {
-      console.log("id pet: ", pet.id);
       setPetData(pet);
     } else {
       alert("La mascota a la que quiere acceder ya no existe");
@@ -77,11 +76,9 @@ function EditarPet() {
   //los campos y si esta todo ok, guarda la nueva pet con un fetch
   //a la api
   function submitHandler(e) {
-    console.log("El evento submit no se ha disparado");
     e.preventDefault();
     if (enviarData) {
       e.preventDefault();
-      console.log("El evento submit se disparó");
 
       if (petData.name != e.target["name"].value && e.target["name"].value) {
         petData.name = e.target["name"].value;
@@ -119,8 +116,6 @@ function EditarPet() {
         petData.id,
         callbackEditPet
       );
-    } else {
-      console.log("El evento submit no se ha disparado");
     }
   }
 

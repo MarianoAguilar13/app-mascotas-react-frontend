@@ -5,7 +5,7 @@ import Css from "./index.css";
 import { useNavigate } from "react-router-dom";
 import { iniciarSesionCrearToken } from "../../api-hooks/api-hooks";
 
-export function SignIn(params) {
+export function SignIn() {
   //este state usa el atom userLogin que tiene los datos para iniciar sesion
   const [userLogin, setUserLogin] = useState({
     mail: "",
@@ -30,8 +30,6 @@ export function SignIn(params) {
   //y de ahora en mas se usara ese token para identificarse
   useEffect(() => {
     if (userLogin.mail) {
-      console.log("dataLogin: ", userLogin);
-
       iniciarSesionCrearToken(
         userLogin.mail,
         userLogin.password,

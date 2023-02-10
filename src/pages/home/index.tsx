@@ -21,8 +21,6 @@ function Home() {
       const lng = geoLocationPosition.coords.longitude;
 
       setCoordenadas({ lat: lat, lng: lng });
-
-      console.log("lat: ", lat + "... lng: ", lng);
     });
   }, [comenzar]);
 

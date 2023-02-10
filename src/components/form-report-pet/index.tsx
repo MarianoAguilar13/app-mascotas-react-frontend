@@ -60,6 +60,10 @@ export function FormReportPet(props: PropsFormReportPet) {
       );
       //se envia el mail con el fetch
       useEnviarMail(mailUserOwner.mail, text, callbackEnviarMail);
+    } else {
+      alert(
+        "Recuerde que deben completarse todos los datos para enviar el reporte y el número de teléfono debe contener carecterística y número"
+      );
     }
   };
 

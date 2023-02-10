@@ -39,8 +39,6 @@ export function SignUp() {
   //cada vez que se modifica el state userCreateData hacer la llamada de la api
   useEffect(() => {
     if (userCreateData.mail) {
-      console.log("dataLogin: ", userCreateData);
-
       if (resultCheckPass) {
         if (resultValidateMail) {
           //el crear cuenta nos permite envia los datos del state userCreateData

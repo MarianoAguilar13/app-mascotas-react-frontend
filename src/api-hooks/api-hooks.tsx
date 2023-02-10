@@ -28,9 +28,9 @@ export async function iniciarSesionCrearToken(
     const res = await fetchApi;
     //console.log("nombre del usuario: ", resultado.name);
     const resultado = await res.json();
-    console.log(resultado.respuesta);
+
     localStorage.setItem("Token", resultado.respuesta);
-    console.log(localStorage.getItem("Token"));
+
     callback(resultado);
   } catch (resultado) {
     callback(resultado);
@@ -63,10 +63,8 @@ export async function crearCuenta(
     //console.log("nombre del usuario: ", resultado.name);
     const resultado = await res.json();
 
-    console.log("respuesta del try crear cuenta: ", resultado);
     callback(resultado);
   } catch (r) {
-    console.log("respuesta del catch crear cuenta: ", r);
     callback(r);
   }
 }
@@ -90,7 +88,6 @@ export async function myData(callback) {
 
     callback(resultado);
   } catch (r) {
-    console.log("respuesta del catch crear cuenta: ", r);
     callback(r);
   }
 }
@@ -335,7 +332,7 @@ export const editarPet = async (
   try {
     const res = await fetchApi;
     const resultado = await res.json();
-    console.log("resultado de editar la pet: ", resultado);
+
     callback(resultado);
   } catch (resultado) {
     callback(resultado);

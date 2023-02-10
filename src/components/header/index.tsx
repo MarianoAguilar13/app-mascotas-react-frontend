@@ -1,17 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Css from "./index.css";
-import { atom, useRecoilValue, selector, useRecoilState } from "recoil";
-import {
-  userLogin,
-  token,
-  userCreate,
-  misDatos,
-  checkToken,
-} from "../../atoms/atoms";
-
-//import { InputBuscador } from "../ui/input-buscador/InputBuscador";
-//import { BotonBuscador } from "../ui/boton-buscador/BotonBuscador";
+import { useRecoilState } from "recoil";
+import { userLogin, userCreate, misDatos, checkToken } from "../../atoms/atoms";
 
 function Header(props) {
   const [userCreateData, setUserCreateData] = useRecoilState(userCreate);

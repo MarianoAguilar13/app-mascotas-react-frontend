@@ -33,7 +33,7 @@ export function CardMisPets(props: PropsFormReportPet) {
             //cuando hacen click en el boton de reportar a una determinada
             //mascota, se settea el id de esa mascota para utilizarlo en la
             //page reportarPet
-            console.log("id de mascota a reportar: ", props.id);
+
             setPetEditar(pet);
             navigate("/editar-pet", { replace: true });
           }}

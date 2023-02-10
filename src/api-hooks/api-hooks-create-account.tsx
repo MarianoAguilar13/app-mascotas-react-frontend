@@ -12,7 +12,6 @@ export const useValidateEmail = (userCreateData) => {
 
 export const useCheckPasswords = (userCreateData) => {
   if (userCreateData.password == userCreateData.passwordRepetida) {
-    console.log("Entro al check pass");
     return true;
   } else {
     return false;

@@ -21,13 +21,11 @@ function ReportarPet(props) {
 
   //se ejecuta el segundo fetch con el callback
   const callbackPetData = (userId) => {
-    console.log("Este es el id del usuario dueño de la mascota: ", userId);
     useMailUser(userId, callbackMailUser);
   };
 
   //por ultimo se ejecuta el callback para settear el mail obtenido
   const callbackMailUser = (mail) => {
-    console.log("Este se setea en el setMailUserOwner: ", mail);
     setMailUserOwner({ mail: mail });
   };
 

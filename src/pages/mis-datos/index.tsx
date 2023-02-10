@@ -33,7 +33,6 @@ function MisDatos() {
       navigate("/mis-datos", { replace: true });
     } else {
       alert(respuesta.aviso);
-      console.log("Nuevo nombre: ", respuesta.nuevoName);
       navigate("/", { replace: true });
     }
   };
@@ -42,8 +41,6 @@ function MisDatos() {
   //los datos del form
   useEffect(() => {
     if (misDatos.name || misDatos.newPassword) {
-      console.log("dataLogin: ", misDatos);
-
       if (resultCheckNewsPass) {
         //el crear cuenta nos permite envia los datos del state userCreateData
         //y con esos datos intenta crear la cuenta, despendiendo lo que devuelva la api

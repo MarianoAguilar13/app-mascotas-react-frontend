@@ -45,16 +45,6 @@ export function FormSignUp(props: PropsFormReportPet) {
     //la llamada de la api para crear la cuenta
     setUserCreateData(data);
   };
-  /*
-  const [hiddenButton, setHiddenButton] = useState(false);
-
-  const mostrarBoton = () => {
-    setHiddenButton(false);
-  };
-
-  const ocultarBoton = () => {
-    setHiddenButton(true);
-  };*/
 
   return (
     <form onSubmit={submitHandler} className={Css.form}>
@@ -82,13 +72,7 @@ export function FormSignUp(props: PropsFormReportPet) {
         typeInput={props.typeInputCuatro}
         labelName={props.labelNameCuatro}
       ></MainFieldSet>
-      <MainButton
-      /*
-        onClick={setHiddenButton}
-        style={{ display: hiddenButton ? "flex" : "none" }}*/
-      >
-        {props.buttonChildren}
-      </MainButton>
+      <MainButton>{props.buttonChildren}</MainButton>
     </form>
   );
 }

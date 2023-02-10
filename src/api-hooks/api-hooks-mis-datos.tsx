@@ -17,7 +17,6 @@ export async function useCheckTokenValido(callback) {
     const resultado = await res.json();
 
     callback(resultado);
-    console.log("se ingreso correctamente");
   } catch (r) {
     callback(r);
   }
@@ -59,7 +58,6 @@ export async function useEditarMisDatos(
     const resultado = await res.json();
 
     callback(resultado);
-    console.log("se ingreso correctamente");
   } catch (r) {
     alert(r.error);
   }

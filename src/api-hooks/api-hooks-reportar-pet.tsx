@@ -14,7 +14,7 @@ export const useMailUser = async (id: number, callback) => {
     //console.log("nombre del usuario: ", resultado.name);
     const resultado = await res.json();
     //aca mos devuelve el mail
-    console.log("este es lo que devuelve useMailUser: ", resultado);
+
     callback(resultado);
   } catch (resultado) {
     callback(resultado);
@@ -39,7 +39,7 @@ export const usePetDataReport = async (idPet: number, callback) => {
     //console.log("nombre del usuario: ", resultado.name);
     const resultado = await res.json();
     //aca mos devuelve el el userId dueño de la mascota
-    console.log("este es el userId que devuelve: ", resultado.userId);
+
     callback(resultado.userId);
   } catch (resultado) {
     callback(resultado);
