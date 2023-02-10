@@ -7,8 +7,12 @@
   margin: 0;
 }
 
+.header {
+  border: black 5px solid;
+}
+
 .headerVisible {
-  background-color: rgb(54, 170, 216);
+  background-color: yellowgreen;
   display: flex;
   height: 150px;
   justify-content: space-between;
@@ -105,7 +109,7 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgb(54, 170, 216);
+  background-color: yellowgreen;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
@@ -121,7 +125,7 @@
 .ventanaLinksBotonCerrar {
   position: absolute;
   right: 0px;
-  background-color: rgb(54, 170, 216);
+  background-color: yellowgreen;
   border: solid 2px black;
   font-size: 32px;
 }

@@ -70,3 +70,9 @@ export const mailUser = atom({
   key: "mailUser",
   default: { mail: "" },
 });
+
+/*
+export const buttonHidden = atom({
+  key: "mailUser",
+  default: { hidden: false },
+});*/
